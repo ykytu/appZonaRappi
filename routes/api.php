@@ -16,3 +16,12 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+
+/*
+Route::get('/cities', 'CityController@index');
+Route::post('/cities', 'CityController@store');
+*/
+
+
+Route::resource('cities', 'CityController');
