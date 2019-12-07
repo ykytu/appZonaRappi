@@ -25,3 +25,7 @@ Route::post('/cities', 'CityController@store');
 
 
 Route::resource('cities', 'CityController');
+Route::resource('sites', 'SiteController');
+Route::resource('rooms', 'RoomController');
+Route::resource('reservations', 'ReservationController');
+Route::resource('users', 'UserController');

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Site;
 use Illuminate\Http\Request;
+use Validator;
 
 class SiteController extends Controller
 {
@@ -14,7 +15,7 @@ class SiteController extends Controller
      */
     public function index()
     {
-        //
+        return $this->responseOK(Site::all());
     }
 
     /**
@@ -35,7 +36,19 @@ class SiteController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $input = $request ->all();
+        $validator = Validator:: make($input, [
+            'nombre' => 'required',
+            'direccion' => 'required',
+            'city' => 'required',
+
+        ]);
+
+       if($validator-> fails()){
+        return $this->responseError(400, 'Bad request', $validator->errors());
+       }
+       $item = Site::create($input);
+       return $this-> responseOK($item);
     }
 
     /**
@@ -46,7 +59,7 @@ class SiteController extends Controller
      */
     public function show(Site $site)
     {
-        //
+        return $this-> responseOK($site);
     }
 
     /**
@@ -69,7 +82,22 @@ class SiteController extends Controller
      */
     public function update(Request $request, Site $site)
     {
-        //
+        $input = $request -> all();
+        $validator = Validator::make($input, [ 
+            'nombre' => 'required',
+            'direccion' => 'required',
+            'city' => 'required',
+        ]);
+
+        if($validator->fails()){
+            return $this->responseError(400, 'Bad request', $validator->errors());
+        }
+
+        $site->nombre = $input['nombre'];
+        $site->direccion = $input['direccion'];
+        $site->city = $input['city'];
+        $site->save();
+        return $this->responseOK($site);
     }
 
     /**
@@ -80,6 +108,7 @@ class SiteController extends Controller
      */
     public function destroy(Site $site)
     {
-        //
+        $site->delete();
+        return $this->responseOK();
     }
 }

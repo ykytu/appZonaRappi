@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Reservation;
 use Illuminate\Http\Request;
+use Validator;
 
 class ReservationController extends Controller
 {
@@ -14,7 +15,7 @@ class ReservationController extends Controller
      */
     public function index()
     {
-        //
+        return $this->responseOK(Reservation::all());
     }
 
     /**
@@ -35,7 +36,20 @@ class ReservationController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $input = $request ->all();
+        $validator = Validator:: make($input, [
+            'fecha_inicio' => 'required',
+            'fecha_fin' => 'required',
+            'room' => 'required',
+            'user' => 'required',
+            
+        ]);
+
+       if($validator-> fails()){
+        return $this->responseError(400, 'Bad request', $validator->errors());
+       }
+       $item = Reservation::create($input);
+       return $this-> responseOK($item);
     }
 
     /**
@@ -46,7 +60,7 @@ class ReservationController extends Controller
      */
     public function show(Reservation $reservation)
     {
-        //
+      //  
     }
 
     /**
@@ -57,7 +71,7 @@ class ReservationController extends Controller
      */
     public function edit(Reservation $reservation)
     {
-        //
+        return $this-> responseOK($reservation);
     }
 
     /**
@@ -69,7 +83,26 @@ class ReservationController extends Controller
      */
     public function update(Request $request, Reservation $reservation)
     {
-        //
+            $input = $request -> all();
+            $validator = Validator::make($input, [ 
+            'fecha_inicio' => 'required',
+            'fecha_fin' => 'required',
+            'room' => 'required',
+            'user' => 'required',
+        ]);
+
+        if($validator->fails()){
+            return $this->responseError(400, 'Bad request', $validator->errors());
+        }
+
+        $room->fecha_inicio = $input['fecha_inicio'];
+        $room->fecha_fin = $input['fecha_fin'];
+        $room->room = $input['room'];
+        $room->user = $input['user'];
+        $room->created_at = $input['created_at'];
+        $room->updated_at = $input['updated_at'];
+        $room->save();
+        return $this->responseOK($reservation);
     }
 
     /**
@@ -80,6 +113,7 @@ class ReservationController extends Controller
      */
     public function destroy(Reservation $reservation)
     {
-        //
+        $reservation->delete();
+        return $this->responseOK();
     }
 }

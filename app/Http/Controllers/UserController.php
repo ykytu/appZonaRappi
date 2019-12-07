@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Room;
+use App\User;
 use Illuminate\Http\Request;
 use Validator;
 
-class RoomController extends Controller
+class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,7 +15,7 @@ class RoomController extends Controller
      */
     public function index()
     {
-        return $this->responseOK(Room::all());
+        return $this->responseOK(User::all());
     }
 
     /**
@@ -38,30 +38,28 @@ class RoomController extends Controller
     {
         $input = $request ->all();
         $validator = Validator:: make($input, [
-            'nombre' => 'required',
-            'ubicacion' => 'required',
-            'precio' => 'required',
-            'contacto' => 'required',
-            'descripcion' => 'required',
-            'foto_principal' => 'required',
-            'site' => 'required',
-
+            'name' => 'required',
+            'apellido' => 'required',
+            'email' => 'required',
+            'celular' => 'required',
+            'password' => 'required',
+            'foto' => 'required',
         ]);
 
        if($validator-> fails()){
         return $this->responseError(400, 'Bad request', $validator->errors());
        }
-       $item = Room::create($input);
+       $item = User::create($input);
        return $this-> responseOK($item);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Room  $room
+     * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function show(Room $room)
+    public function show(User $user)
     {
         //
     }
@@ -69,60 +67,57 @@ class RoomController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Room  $room
+     * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function edit(Room $room)
+    public function edit(User $user)
     {
-        return $this-> responseOK($room);
+        return $this-> responseOK($user);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Room  $room
+     * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Room $room)
+    public function update(Request $request, User $user)
     {
         $input = $request -> all();
         $validator = Validator::make($input, [ 
-           'nombre' => 'required',
-            'ubicacion' => 'required',
-            'precio' => 'required',
-            'contacto' => 'required',
-            'descripcion' => 'required',
-            'foto_principal' => 'required',
-            'site' => 'required',
+            'name' => 'required',
+            'apellido' => 'required',
+            'email' => 'required',
+            'celular' => 'required',
+            'password' => 'required',
+            'foto' => 'required',
         ]);
 
         if($validator->fails()){
             return $this->responseError(400, 'Bad request', $validator->errors());
         }
 
-        $room->nombre = $input['nombre'];
-        $room->ubicacion = $input['ubicacion'];
-        $room->precio = $input['precio'];
-        $room->contacto = $input['contacto'];
-        $room->descripcion = $input['descripcion'];
-        $room->foto_principal = $input['foto_principal'];
-        $room->foto_principal = $input['foto_secundaria'];
-        $room->foto_principal = $input['foto_auxiliar'];
-        $room->site = $input['site'];
-        $room->save();
-        return $this->responseOK($room);
+        $user->name = $input['name'];
+        $user->apellido = $input['apellido'];
+        $user->email = $input['email'];
+        $user->celular = $input['celular'];
+        $user->password = $input['password'];
+        $user->foto = $input['foto'];
+        $user->save();
+        return $this->responseOK($user);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Room  $room
+     * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Room $room)
+    public function destroy(User $user)
     {
-        $room->delete();
+        $user->delete();
         return $this->responseOK();
     }
 }
+

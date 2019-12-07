@@ -23,8 +23,8 @@ class CreateRoomsTable extends Migration
             $table->string('foto_principal');
             $table->string('foto_secundaria');
             $table->string('foto_auxiliar');
-            $table->unsignedBigInteger('city');
-            $table->foreign('city')->references('id')->on('cities');
+            $table->unsignedBigInteger('site');
+            $table->foreign('site')->references('id')->on('sites');
             
 
         });
